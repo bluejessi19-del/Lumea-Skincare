@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-[#FAF9F6]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMÉA Skincare - Gentle, Smart & Science-Backed</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lumea: {
+                            blue: {
+                                50: '#F4F8FC',
+                                100: '#E6F0FA',
+                                200: '#D4E6F7',
+                                300: '#B8D8F8',
+                                500: '#64B5F6',
+                                800: '#1E3A8A',
+                                900: '#1C2D42'
+                            },
+                            yellow: {
+                                100: '#FFFDE7',
+                                200: '#FFF9C4',
+                                300: '#FDFD96',
+                                400: '#FCE883',
+                                500: '#F6E05E',
+                                600: '#D69E2E'
+                            },
+                            cream: '#FAF9F6',
+                            text: '#2C3E50',
+                            muted: '#5A6B7C'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #2C3E50;
+            background-color: #FAF9F6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #E6F0FA;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #B8D8F8;
+            border-radius: 10px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 230, 247, 0.6);
+        }
+        .tab-btn.active {
+            background-color: #FCE883;
+            color: #1C2D42;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(246, 224, 94, 0.4);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between custom-scrollbar">
+
+    <!-- TOP ANNOUNCEMENT / QR ORIGIN BANNER -->
+    <div id="qr-origin-banner" class="bg-lumea-yellow-300 text-lumea-blue-900 px-4 py-2 text-xs md:text-sm font-semibold flex justify-between items-center transition-all duration-300 border-b border-lumea-yellow-400">
+        <div class="flex items-center space-x-2">
+            <span class="bg-lumea-blue-900 text-lumea-yellow-300 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider" id="qr-tag">Booth Access</span>
+            <span id="qr-text">✨ Selamat datang dari LUMÉA Campus Takeover! Klaim voucher diskon 20% di Skin Scan.</span>
+        </div>
+        <button onclick="dismissQRBanner()" class="text-lumea-blue-900 hover:text-black font-bold p-1">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="sticky top-0 z-40 bg-lumea-blue-100/90 backdrop-blur-md border-b border-lumea-blue-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('beranda')">
+                <div class="w-9 h-9 rounded-full bg-lumea-yellow-400 flex items-center justify-center text-lumea-blue-900 font-black text-xl shadow-inner border border-lumea-yellow-500">
+                    💧
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight text-lumea-blue-900 leading-none">LUMÉA</h1>
+                    <span class="text-[9px] uppercase tracking-widest text-lumea-muted font-bold block">Smart Skincare</span>
+                </div>
+            </div>
+
+            <!-- Global Search Input -->
+            <div class="relative flex-1 max-w-xs hidden sm:block">
+                <input type="text" id="global-search" oninput="handleGlobalSearch(this.value)" placeholder="Cari kandungan (retinol, SPF), masalah kulit..." 
+                       class="w-full bg-white/90 text-xs text-lumea-blue-900 pl-9 pr-4 py-2 rounded-full border border-lumea-blue-200 focus:outline-none focus:ring-2 focus:ring-lumea-yellow-400 shadow-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-lumea-muted text-xs"></i>
+            </div>
+
+            <!-- Header Right Actions & Admin Switcher -->
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleAdminDashboard()" class="hidden md:flex items-center space-x-1 px-3 py-1.5 bg-lumea-blue-900 text-lumea-yellow-300 text-xs rounded-full font-semibold hover:bg-lumea-blue-800 transition">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>CRM Admin</span>
+                </button>
+                <button onclick="toggleAuthModal()" class="flex items-center space-x-1.5 px-3.5 py-1.5 bg-white border border-lumea-blue-300 rounded-full text-xs font-semibold text-lumea-blue-900 hover:bg-lumea-blue-50 shadow-sm">
+                    <i class="fa-solid fa-user text-lumea-blue-500"></i>
+                    <span id="user-login-status">Login (OTP/Google)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Row -->
+        <div class="px-4 pb-2.5 sm:hidden">
+            <div class="relative w-full">
+                <input type="text" oninput="handleGlobalSearch(this.value)" placeholder="Cari masalah kulit, bahan aktif, atau produk..." 
+                       class="w-full bg-white text-xs text-lumea-blue-900 pl-9 pr-4 py-2 rounded-full border border-lumea-blue-200 focus:outline-none focus:ring-2 focus:ring-lumea-yellow-400 shadow-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-lumea-muted text-xs"></i>
+            </div>
+        </div>
+
+        <!-- Dynamic Navigation Tabs Bar (Scrollable on mobile) -->
+        <nav class="bg-lumea-blue-50/80 border-t border-lumea-blue-200/60 px-2">
+            <div class="max-w-7xl mx-auto flex items-center space-x-1 overflow-x-auto custom-scrollbar py-1.5 text-xs font-medium text-lumea-text">
+                <button onclick="switchTab('beranda')" id="tab-btn-beranda" class="tab-btn active whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-house"></i> Beranda
+                </button>
+                <button onclick="switchTab('skin-scan')" id="tab-btn-skin-scan" class="tab-btn whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 border border-lumea-yellow-400 bg-lumea-yellow-100 font-semibold">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lumea-blue-900"></i> Skin Scan
+                </button>
+                <button onclick="switchTab('konsultasi')" id="tab-btn-konsultasi" class="tab-btn whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-doctor"></i> Konsultasi Dokter
+                </button>
+                <button onclick="switchTab('produk')" id="tab-btn-produk" class="tab-btn whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-bottle-droplet"></i> Produk
+                </button>
+                <button onclick="switchTab('belajar')" id="tab-btn-belajar" class="tab-btn whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-open"></i> Belajar
+                </button>
+                <button onclick="switchTab('komunitas')" id="tab-btn-komunitas" class="tab-btn whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-users"></i> Komunitas & Event
+                </button>
+                <button onclick="switchTab('akun')" id="tab-btn-akun" class="tab-btn whitespace-nowrap px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-id-card"></i> Akun Saya
+                </button>
+                <button onclick="toggleAdminDashboard()" class="md:hidden tab-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-lumea-blue-900 text-lumea-yellow-300 font-bold">
+                    <i class="fa-solid fa-chart-line"></i> CRM
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SEARCH OVERLAY RESULTS -->
+    <div id="search-overlay" class="hidden fixed inset-x-0 top-28 z-30 max-w-3xl mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow-2xl border border-lumea-blue-200 p-4 max-h-[70vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-3 pb-2 border-b">
+                <span class="text-xs font-bold uppercase tracking-wider text-lumea-muted">Hasil Pencarian Cepat</span>
+                <button onclick="closeSearchOverlay()" class="text-xs text-red-500 font-bold">Tutup <i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="search-results-list" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
+
+        <!-- ==================== TAB 1: BERANDA ==================== -->
+        <section id="tab-beranda" class="tab-content space-y-10">
+            <!-- Hero Section -->
+            <div class="relative rounded-3xl bg-gradient-to-r from-lumea-blue-200 via-lumea-blue-100 to-lumea-yellow-100 p-6 sm:p-10 border border-lumea-blue-300 overflow-hidden shadow-sm">
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <span class="inline-block bg-lumea-yellow-400 text-lumea-blue-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                        Smart & Personalized Skincare
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-lumea-blue-900 leading-tight">
+                        Temukan Rutinitas Kulit Idealmu Tanpa Trial & Error.
+                    </h2>
+                    <p class="text-sm sm:text-base text-lumea-muted leading-relaxed">
+                        Pendekatan berbasis sains dari LUMÉA. Lakukan Skin Scan cepat, berkonsultasi dengan dokter spesialis kulit Sp.D.V.E, dan dapatkan formula terbaik langsung ke rumahmu.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('skin-scan')" class="px-6 py-3.5 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-sm rounded-2xl shadow-md transition transform hover:-translate-y-0.5 flex items-center space-x-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>Mulai Skin Scan Gratis</span>
+                        </button>
+                        <button onclick="switchTab('konsultasi')" class="px-5 py-3.5 bg-white hover:bg-lumea-blue-50 text-lumea-blue-900 border border-lumea-blue-300 font-semibold text-sm rounded-2xl shadow-sm transition">
+                            Konsultasi Dokter Expert
+                        </button>
+                    </div>
+                </div>
+                <!-- Decorative Elements -->
+                <div class="absolute -right-10 -bottom-10 opacity-30 sm:opacity-50 pointer-events-none">
+                    <div class="w-64 h-64 bg-lumea-yellow-300 rounded-full blur-3xl"></div>
+                </div>
+            </div>
+
+            <!-- Cara Kerja 3 Langkah -->
+            <div class="space-y-6">
+                <div class="text-center max-w-xl mx-auto">
+                    <h3 class="text-2xl font-bold text-lumea-blue-900">3 Langkah Pintar LUMÉA</h3>
+                    <p class="text-xs sm:text-sm text-lumea-muted">Solusi terintegrasi dari asesmen hingga perawatan berkelanjutan.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="bg-white p-6 rounded-2xl border border-lumea-blue-200 shadow-sm relative group hover:border-lumea-yellow-500 transition">
+                        <div class="w-12 h-12 bg-lumea-blue-100 rounded-xl flex items-center justify-center text-lumea-blue-900 font-bold text-xl mb-4 group-hover:bg-lumea-yellow-300 transition">
+                            1
+                        </div>
+                        <h4 class="font-bold text-base text-lumea-blue-900 mb-1">Scan & Analisis</h4>
+                        <p class="text-xs text-lumea-muted">Isi kuis asesmen 1 menit untuk mengidentifikasi tipe kulit, barrier status, dan sensitivitas.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-lumea-blue-200 shadow-sm relative group hover:border-lumea-yellow-500 transition">
+                        <div class="w-12 h-12 bg-lumea-blue-100 rounded-xl flex items-center justify-center text-lumea-blue-900 font-bold text-xl mb-4 group-hover:bg-lumea-yellow-300 transition">
+                            2
+                        </div>
+                        <h4 class="font-bold text-base text-lumea-blue-900 mb-1">Konsultasi Dokter Sp.D.V.E</h4>
+                        <p class="text-xs text-lumea-muted">Hubungkan hasil scan langsung ke ruang chat dokter berizin resmi untuk evaluasi mendalam.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-lumea-blue-200 shadow-sm relative group hover:border-lumea-yellow-500 transition">
+                        <div class="w-12 h-12 bg-lumea-blue-100 rounded-xl flex items-center justify-center text-lumea-blue-900 font-bold text-xl mb-4 group-hover:bg-lumea-yellow-300 transition">
+                            3
+                        </div>
+                        <h4 class="font-bold text-base text-lumea-blue-900 mb-1">Beli & Pantau Rutinitas</h4>
+                        <p class="text-xs text-lumea-muted">Dapatkan paket rekomendasi presisi via Shopee, TikTok, atau WA dengan reminder penggunaan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event & Live Streaming Banner -->
+            <div class="bg-lumea-blue-900 text-white p-6 rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 max-w-lg">
+                    <span class="bg-red-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide inline-flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> Live Shopping & Talk
+                    </span>
+                    <h3 class="text-xl font-bold text-lumea-yellow-300">LUMÉA Payday Live & Skin Talk bersama Sp.D.V.E</h3>
+                    <p class="text-xs text-gray-300">Dapatkan diskon khusus hingga 45% dan tanya jawab langsung mengenai Acne Repair Routine jam 19:00 WIB malam ini.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openMultiChannelModal('TikTok Live Session', 'https://tiktok.com/@lumeaskincare')" class="px-4 py-2.5 bg-lumea-yellow-400 text-lumea-blue-900 font-bold text-xs rounded-xl hover:bg-lumea-yellow-300 transition flex items-center gap-2">
+                        <i class="fa-brands fa-tiktok"></i> Gabung TikTok Live
+                    </button>
+                    <button onclick="switchTab('komunitas')" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs rounded-xl transition">
+                        Jadwal Event Kompleks
+                    </button>
+                </div>
+            </div>
+
+            <!-- Featured Products Showcase -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h3 class="text-2xl font-bold text-lumea-blue-900">Produk Unggulan & Promo</h3>
+                        <p class="text-xs text-lumea-muted">Formulasi dermatologi lembut untuk kelembapan dan skin barrier kuat.</p>
+                    </div>
+                    <button onclick="switchTab('produk')" class="text-xs font-bold text-lumea-blue-900 hover:underline flex items-center gap-1">
+                        Lihat Semua Katalog <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div id="featured-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Dynamic Featured Products populated via JS -->
+                </div>
+            </div>
+
+            <!-- Real Skin Real Stories -->
+            <div class="bg-lumea-blue-50 rounded-3xl p-6 border border-lumea-blue-200 space-y-4">
+                <div class="text-center max-w-md mx-auto">
+                    <h3 class="text-xl font-bold text-lumea-blue-900">Real Skin, Real Stories</h3>
+                    <p class="text-xs text-lumea-muted">Perjalanan penyembuhan kulit dari komunitas pengguna LUMÉA.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-2xl border border-lumea-blue-100 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-lumea-yellow-300 flex items-center justify-center font-bold text-xs">SM</div>
+                            <div>
+                                <h5 class="text-xs font-bold text-lumea-blue-900">Siti M. (21 thn)</h5>
+                                <span class="text-[10px] text-lumea-muted">Maha-siswa Campus Takeover</span>
+                            </div>
+                        </div>
+                        <div class="bg-lumea-blue-50 p-2 rounded-xl text-[11px] text-lumea-text font-medium">
+                            "Skin scan di booth kampus pas banget me-rekam masalah fungal acne aku. Konsul dokter gratis voucher, dalam 3 minggu redness hilang!"
+                        </div>
+                        <div class="text-[10px] text-lumea-yellow-600 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-star"></i> Verified User - Shopee
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-lumea-blue-100 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-lumea-blue-200 flex items-center justify-center font-bold text-xs">RP</div>
+                            <div>
+                                <h5 class="text-xs font-bold text-lumea-blue-900">Rian Pratama (25 thn)</h5>
+                                <span class="text-[10px] text-lumea-muted">Peserta Run & Sun 5K</span>
+                            </div>
+                        </div>
+                        <div class="bg-lumea-blue-50 p-2 rounded-xl text-[11px] text-lumea-text font-medium">
+                            "Sunscreen Invisible Shield LUMÉA ga bikin sumuk pas lari. Proteksi maksimal tanpa whitecast!"
+                        </div>
+                        <div class="text-[10px] text-lumea-yellow-600 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-star"></i> Verified User - TikTok Shop
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-lumea-blue-100 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-lumea-yellow-300 flex items-center justify-center font-bold text-xs">AN</div>
+                            <div>
+                                <h5 class="text-xs font-bold text-lumea-blue-900">Anisa N. (28 thn)</h5>
+                                <span class="text-[10px] text-lumea-muted">Kombinasi Sensitive</span>
+                            </div>
+                        </div>
+                        <div class="bg-lumea-blue-50 p-2 rounded-xl text-[11px] text-lumea-text font-medium">
+                            "Routine Bundle Skin Barrier Saver penyelamat waktu mukaku ketarik abis coba retinol sembarangan."
+                        </div>
+                        <div class="text-[10px] text-lumea-yellow-600 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-star"></i> Verified User - WA Official
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: SKIN SCAN ==================== -->
+        <section id="tab-skin-scan" class="tab-content hidden space-y-6">
+            <!-- Scan Header Header -->
+            <div class="bg-lumea-blue-100 rounded-3xl p-6 border border-lumea-blue-200 text-center max-w-2xl mx-auto space-y-2">
+                <span class="bg-lumea-yellow-400 text-lumea-blue-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Interactive Assessment</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-lumea-blue-900">LUMÉA Skin Scan Engine</h2>
+                <p class="text-xs sm:text-sm text-lumea-muted">Analisis kondisi kulitmu dalam 5 langkah singkat untuk rekomendasi rutinitas presisi.</p>
+                <div class="inline-block bg-white/70 px-3 py-1 rounded-full text-[11px] text-lumea-blue-900 font-semibold border border-lumea-blue-200">
+                    <i class="fa-solid fa-shield-halved text-lumea-yellow-600"></i> Tanpa Perlu Login Untuk Memulai Scan
+                </div>
+            </div>
+
+            <!-- Quiz Stepper Component Container -->
+            <div class="max-w-xl mx-auto bg-white rounded-3xl border border-lumea-blue-200 p-6 sm:p-8 shadow-sm">
+                <!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs font-bold text-lumea-blue-900 mb-1.5">
+                        <span id="quiz-step-title">Langkah 1 dari 5</span>
+                        <span id="quiz-progress-percent">20%</span>
+                    </div>
+                    <div class="w-full bg-lumea-blue-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="quiz-progress-bar" class="bg-lumea-yellow-400 h-full w-1/5 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Quiz Form Step Views -->
+                <form id="skin-scan-form" onsubmit="event.preventDefault();">
+                    <!-- Step 1: Jenis Kulit -->
+                    <div id="step-1" class="quiz-step space-y-4">
+                        <h3 class="text-base font-bold text-lumea-blue-900">Bagaimana rasanya kulit wajahmu di siang hari?</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_type" value="Berminyak (Oily)" class="accent-lumea-yellow-500" checked>
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Berminyak & Mengkilap di Seluruh Wajah</span>
+                                </div>
+                                <span class="text-base">✨</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_type" value="Kering (Dry)" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Kering, Kaku, atau Terkelupas</span>
+                                </div>
+                                <span class="text-base">🌵</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_type" value="Kombinasi (Combination)" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Berminyak di T-Zone (Dahi/Hidung), Kering di Pipi</span>
+                                </div>
+                                <span class="text-base">⚖️</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_type" value="Sensitif (Sensitive)" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Mudah Kemerahan & Gatal Terkena Produk Baru</span>
+                                </div>
+                                <span class="text-base">🌸</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Masalah Utama -->
+                    <div id="step-2" class="quiz-step hidden space-y-4">
+                        <h3 class="text-base font-bold text-lumea-blue-900">Apa fokus utama masalah kulit yang ingin kamu atasi?</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_concern" value="Jerawat & Komedo" class="accent-lumea-yellow-500" checked>
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Jerawat Aktif, Komedo, & Pori-Pori Besar</span>
+                                </div>
+                                <span class="text-base">🌋</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_concern" value="Skin Barrier Rusak" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Skin Barrier Rusak, Perih & Kemerahan</span>
+                                </div>
+                                <span class="text-base">🛡️</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_concern" value="Kusam & Flek Hitam" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Kulit Kusam, Bekas Jerawat, Flek Hitam</span>
+                                </div>
+                                <span class="text-base">☀️</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="skin_concern" value="Penuaan Dini" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Garis Halus, Kerutan, & Kehilangan Elastisitas</span>
+                                </div>
+                                <span class="text-base">⏳</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Alokasi Budget -->
+                    <div id="step-3" class="quiz-step hidden space-y-4">
+                        <h3 class="text-base font-bold text-lumea-blue-900">Berapa alokasi budget bulanan perawatan kulitmu?</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="budget" value="Pelajar (Rp 100k - 200k)" class="accent-lumea-yellow-500" checked>
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Budget Hemat / Pelajar (Rp 100k - 200k)</span>
+                                </div>
+                                <span class="text-base">💸</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="budget" value="Ideal (Rp 200k - 400k)" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Standard Complete Routine (Rp 200k - 400k)</span>
+                                </div>
+                                <span class="text-base">💳</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="budget" value="Premium Expert (> Rp 400k)" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Premium Intensive Treatment (> Rp 400k)</span>
+                                </div>
+                                <span class="text-base">💎</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Waktu Rutinitas -->
+                    <div id="step-4" class="quiz-step hidden space-y-4">
+                        <h3 class="text-base font-bold text-lumea-blue-900">Berapa banyak langkah rutinitas yang sanggup kamu jalani?</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="routine_time" value="Minimalis (2-3 Step)" class="accent-lumea-yellow-500" checked>
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Basic Minimalist (Cleanser + Moisturizer + Sunscreen)</span>
+                                </div>
+                                <span class="text-base">⚡</span>
+                            </label>
+                            <label class="flex items-center justify-between p-3.5 border rounded-2xl cursor-pointer hover:bg-lumea-blue-50 transition border-lumea-blue-200">
+                                <div class="flex items-center space-x-3">
+                                    <input type="radio" name="routine_time" value="Lengkap (4-6 Step)" class="accent-lumea-yellow-500">
+                                    <span class="text-xs font-semibold text-lumea-blue-900">Advanced Routine (Plus Toner, Serum, Spot Cream)</span>
+                                </div>
+                                <span class="text-base">🌟</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Alergi & Sensitivitas Bahan -->
+                    <div id="step-5" class="quiz-step hidden space-y-4">
+                        <h3 class="text-base font-bold text-lumea-blue-900">Apakah kamu punya alergi atau sensitivitas khusus?</h3>
+                        <div class="space-y-2 border border-lumea-blue-100 p-3 rounded-2xl bg-lumea-blue-50/50">
+                            <label class="flex items-center space-x-3 text-xs font-medium text-lumea-blue-900">
+                                <input type="checkbox" name="allergy" value="Parfum/Fragrance" class="accent-lumea-yellow-500 rounded">
+                                <span>Alergi Pewangi / Essential Oils</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-xs font-medium text-lumea-blue-900">
+                                <input type="checkbox" name="allergy" value="Alkohol Bebas" class="accent-lumea-yellow-500 rounded">
+                                <span>Sensitif Terhadap Alcohol Denat</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-xs font-medium text-lumea-blue-900">
+                                <input type="checkbox" name="allergy" value="Niacinamide Konsentrasi Tinggi" class="accent-lumea-yellow-500 rounded">
+                                <span>Tidak Cocok Niacinamide Tinggi (&gt;5%)</span>
+                            </label>
+                            <label class="flex items-center space-x-3 text-xs font-medium text-lumea-blue-900">
+                                <input type="checkbox" name="allergy" value="Tidak Ada Alergi" class="accent-lumea-yellow-500 rounded" checked>
+                                <span>Tidak Ada Alergi Diketahui</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Stepper Control Buttons -->
+                    <div class="pt-6 flex justify-between items-center border-t border-lumea-blue-100">
+                        <button type="button" id="quiz-prev-btn" onclick="navigateQuiz(-1)" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-lumea-blue-900 font-bold text-xs rounded-xl opacity-50 cursor-not-allowed" disabled>
+                            <i class="fa-solid fa-chevron-left"></i> Kembali
+                        </button>
+                        <button type="button" id="quiz-next-btn" onclick="navigateQuiz(1)" class="px-5 py-2.5 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-xs rounded-xl shadow-sm flex items-center space-x-1.5">
+                            <span>Selanjutnya</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Quiz Result Box Container (Hidden Initially) -->
+            <div id="quiz-result-container" class="hidden max-w-3xl mx-auto space-y-6">
+                <!-- Result Banner -->
+                <div class="bg-gradient-to-r from-lumea-blue-200 to-lumea-yellow-100 rounded-3xl p-6 border border-lumea-yellow-400 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="bg-lumea-yellow-400 text-lumea-blue-900 font-bold text-xs px-3 py-1 rounded-full uppercase">Hasil Analisis Skin Scan</span>
+                        <span class="text-[11px] text-lumea-muted">ID Scan: <strong id="res-scan-id">#LUM-8829</strong></span>
+                    </div>
+                    <h3 class="text-2xl font-black text-lumea-blue-900" id="res-skin-profile-title">Profil: Kombinasi - Jerawat & Barrier Loss</h3>
+                    <p class="text-xs text-lumea-text leading-relaxed" id="res-skin-description">
+                        Kulitmu memerlukan hidrasi terkontrol tanpa menyumbat pori-pori, disertai penguatan skin barrier dengan Ceramide kompleks dan Niacinamide lembut.
+                    </p>
+                </div>
+
+                <!-- Generated Routine AM/PM -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Pagi -->
+                    <div class="bg-white p-5 rounded-2xl border border-lumea-blue-200 space-y-3">
+                        <h4 class="font-bold text-sm text-lumea-blue-900 flex items-center gap-2">
+                            <span class="text-yellow-500">☀️</span> Rutinitas Pagi (AM Routine)
+                        </h4>
+                        <ol class="space-y-2 text-xs text-lumea-text font-medium list-decimal list-inside" id="res-am-steps">
+                            <li>LUMÉA Calm Gentle Cleanser</li>
+                            <li>LUMÉA Barrier Hydrating Essence</li>
+                            <li>LUMÉA Invisible Shield Sunscreen SPF 50+</li>
+                        </ol>
+                    </div>
+                    <!-- Malam -->
+                    <div class="bg-white p-5 rounded-2xl border border-lumea-blue-200 space-y-3">
+                        <h4 class="font-bold text-sm text-lumea-blue-900 flex items-center gap-2">
+                            <span class="text-indigo-500">🌙</span> Rutinitas Malam (PM Routine)
+                        </h4>
+                        <ol class="space-y-2 text-xs text-lumea-text font-medium list-decimal list-inside" id="res-pm-steps">
+                            <li>LUMÉA Double Cleanse Cleansing Balm</li>
+                            <li>LUMÉA Calm Gentle Cleanser</li>
+                            <li>LUMÉA Targeted Acne & Barrier Serum</li>
+                            <li>LUMÉA Ceramide Gel Moisture Lock</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Recommended Bundle & CTA Buttons -->
+                <div class="bg-white p-6 rounded-2xl border border-lumea-blue-200 space-y-4">
+                    <h4 class="font-bold text-sm text-lumea-blue-900">Rekomendasi Paket Produk LUMÉA Cocok Scan</h4>
+                    <div id="res-product-recommendation-card" class="flex flex-col sm:flex-row items-center justify-between p-4 bg-lumea-blue-50 rounded-xl border border-lumea-blue-200 gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-2xl border">📦</div>
+                            <div>
+                                <h5 class="font-bold text-xs text-lumea-blue-900" id="res-bundle-name">Barrier & Acne Rescue Bundle</h5>
+                                <p class="text-[11px] text-lumea-muted">Cleanser 100ml + Serum 30ml + Barrier Gel 50g</p>
+                                <span class="text-xs font-bold text-lumea-blue-900 mt-1 block">Rp 219.000 <span class="line-through text-gray-400 text-[10px]">Rp 279.000</span></span>
+                            </div>
+                        </div>
+                        <button onclick="openMultiChannelModal('Barrier & Acne Rescue Bundle', 'https://shopee.co.id/lumea')" class="w-full sm:w-auto px-4 py-2.5 bg-lumea-yellow-400 text-lumea-blue-900 font-bold text-xs rounded-xl hover:bg-lumea-yellow-500 transition">
+                            Beli Paket Rekomendasi
+                        </button>
+                    </div>
+
+                    <!-- Multi action buttons for Scan Results -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                        <button onclick="openMultiChannelModal('Hasil Scan Produk LUMÉA')" class="p-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition text-center">
+                            <i class="fa-solid fa-bag-shopping"></i> Shopee / TikTok
+                        </button>
+                        <button onclick="saveRoutineToAccount()" class="p-2.5 bg-lumea-blue-200 hover:bg-lumea-blue-300 text-lumea-blue-900 rounded-xl text-xs font-bold transition text-center">
+                            <i class="fa-solid fa-bookmark"></i> Simpan Hasil
+                        </button>
+                        <button onclick="shareToWhatsApp()" class="p-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold transition text-center">
+                            <i class="fa-brands fa-whatsapp"></i> Kirim WA
+                        </button>
+                        <button onclick="proceedToDoctorConsultation()" class="p-2.5 bg-lumea-blue-900 hover:bg-lumea-blue-800 text-lumea-yellow-300 rounded-xl text-xs font-bold transition text-center">
+                            <i class="fa-solid fa-user-doctor"></i> Konsul Dokter
+                        </button>
+                    </div>
+
+                    <!-- Medical Disclaimer -->
+                    <p class="text-[10px] text-lumea-muted text-center pt-2 italic border-t border-gray-100">
+                        Disclaimer: Hasil Skin Scan adalah panduan perawatan mandiri berdasar algoritma pendukung, bukan diagnosis medis resmi. Konsultasikan ke dokter Sp.D.V.E di tab konsultasi untuk penanganan klinis lanjutan.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: KONSULTASI DOKTER ==================== -->
+        <section id="tab-konsultasi" class="tab-content hidden space-y-6">
+            <div class="bg-lumea-blue-100 rounded-3xl p-6 border border-lumea-blue-200 text-center max-w-2xl mx-auto space-y-2">
+                <span class="bg-lumea-yellow-400 text-lumea-blue-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Paid Expert Chat</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-lumea-blue-900">Konsultasi Dokter Sp.D.V.E</h2>
+                <p class="text-xs sm:text-sm text-lumea-muted">Diskusi langsung masalah kulitmu dengan Spesialis Dermatologi, Venereologi & Estetika terverifikasi.</p>
+            </div>
+
+            <!-- Pricing & Scope Info Banner -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200 flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-lumea-yellow-300 flex items-center justify-center text-lumea-blue-900 font-bold">💰</div>
+                    <div>
+                        <h4 class="text-xs font-bold text-lumea-blue-900">Biaya Transparan</h4>
+                        <p class="text-[11px] text-lumea-muted">Flat Rp 35.000 / sesi 30 menit</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200 flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-lumea-blue-200 flex items-center justify-center text-lumea-blue-900 font-bold">📋</div>
+                    <div>
+                        <h4 class="text-xs font-bold text-lumea-blue-900">Form Pra-Konsultasi Auto</h4>
+                        <p class="text-[11px] text-lumea-muted">Terhubung langsung dari data Skin Scan</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200 flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-lumea-yellow-300 flex items-center justify-center text-lumea-blue-900 font-bold">🔒</div>
+                    <div>
+                        <h4 class="text-xs font-bold text-lumea-blue-900">Privasi Kesehatan Terjamin</h4>
+                        <p class="text-[11px] text-lumea-muted">Enkripsi medis & izin persetujuan</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Directory Grid -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-lumea-blue-900">Pilih Dokter Spesialis Tersedia</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="doctors-directory">
+                    <!-- Doctor 1 -->
+                    <div class="bg-white p-5 rounded-2xl border border-lumea-blue-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-14 h-14 rounded-2xl bg-lumea-blue-100 flex items-center justify-center text-2xl border border-lumea-blue-300 font-bold">
+                                👩‍⚕️
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-lumea-blue-900">dr. Amanda Putri, Sp.D.V.E</h4>
+                                <p class="text-[11px] text-lumea-muted">Spesialis Dermatologi & Acne Care</p>
+                                <span class="inline-block mt-1 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Online Sekarang</span>
+                            </div>
+                        </div>
+                        <button onclick="startBookingDoctor('dr. Amanda Putri, Sp.D.V.E', '35000')" class="w-full sm:w-auto px-4 py-2 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-xs rounded-xl shadow-sm transition">
+                            Book Slot Konsul
+                        </button>
+                    </div>
+
+                    <!-- Doctor 2 -->
+                    <div class="bg-white p-5 rounded-2xl border border-lumea-blue-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-14 h-14 rounded-2xl bg-lumea-blue-100 flex items-center justify-center text-2xl border border-lumea-blue-300 font-bold">
+                                👨‍⚕️
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-lumea-blue-900">dr. Kevin Sanjaya, Sp.D.V.E</h4>
+                                <p class="text-[11px] text-lumea-muted">Spesialis Barrier Repair & Sensitive Skin</p>
+                                <span class="inline-block mt-1 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Online Sekarang</span>
+                            </div>
+                        </div>
+                        <button onclick="startBookingDoctor('dr. Kevin Sanjaya, Sp.D.V.E', '35000')" class="w-full sm:w-auto px-4 py-2 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-xs rounded-xl shadow-sm transition">
+                            Book Slot Konsul
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking & Chat Modal Simulator Container -->
+            <div id="doctor-consult-modal" class="hidden bg-white rounded-3xl border border-lumea-blue-300 p-6 shadow-xl max-w-xl mx-auto space-y-4">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h4 class="font-bold text-sm text-lumea-blue-900" id="consult-modal-title">Sesi Pra-Konsultasi Dokter</h4>
+                    <button onclick="closeDoctorModal()" class="text-xs text-gray-400 hover:text-black font-bold">Tutup <i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <!-- Pre-filled data view -->
+                <div class="bg-lumea-blue-50 p-4 rounded-2xl text-xs space-y-2 border border-lumea-blue-200">
+                    <span class="font-bold text-lumea-blue-900 block border-b pb-1">Data Pra-Konsultasi Terisi Otomatis:</span>
+                    <p><strong>Nama Dokter:</strong> <span id="consult-doc-name">dr. Amanda Putri, Sp.D.V.E</span></p>
+                    <p><strong>Profil Skin Scan:</strong> <span id="consult-skin-summary">Belum Melakukan Scan (Default: Kombinasi)</span></p>
+                    <p><strong>Biaya Sesi:</strong> Rp 35.000 (Termasuk Rekomendasi Resep Produk)</p>
+                </div>
+                <!-- Consent Checkbox -->
+                <label class="flex items-start space-x-2 text-[11px] text-lumea-muted cursor-pointer">
+                    <input type="checkbox" id="privacy-consent" checked class="mt-0.5 accent-lumea-yellow-500 rounded">
+                    <span>Saya menyetujui Kebijakan Privasi Data Kesehatan LUMÉA untuk berbagi riwayat scan dengan dokter Sp.D.V.E yang bertugas.</span>
+                </label>
+                <div class="pt-2 flex gap-2">
+                    <button onclick="launchDoctorLiveChat()" class="flex-1 py-3 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-xs rounded-xl shadow-md transition">
+                        Bayar & Masuk Ruang Chat Sesi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulated Live Chat Area (Hidden default) -->
+            <div id="simulated-chat-room" class="hidden bg-white rounded-3xl border border-lumea-blue-300 shadow-xl max-w-xl mx-auto overflow-hidden">
+                <div class="bg-lumea-blue-900 text-white p-4 flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+                        <span class="text-xs font-bold" id="chat-doctor-heading">Chat Aktif: dr. Amanda Putri, Sp.D.V.E</span>
+                    </div>
+                    <button onclick="endDoctorChatSession()" class="text-xs bg-red-500 text-white px-2.5 py-1 rounded-lg font-bold">Akhiri Sesi</button>
+                </div>
+                <div id="chat-messages-container" class="p-4 h-64 overflow-y-auto space-y-3 bg-lumea-blue-50/30 text-xs custom-scrollbar">
+                    <div class="bg-lumea-blue-100 p-3 rounded-2xl max-w-xs text-lumea-blue-900 font-medium">
+                        Halo! Saya dr. Amanda. Data Skin Scan kamu sudah saya pelajari. Ada keluhan khusus seperti rasa perih saat memakai moisturizer?
+                    </div>
+                </div>
+                <div class="p-3 bg-white border-t border-lumea-blue-200 flex gap-2">
+                    <input type="text" id="chat-input-field" placeholder="Tulis balasan pesan untuk dokter..." class="flex-1 text-xs border border-lumea-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-lumea-yellow-400">
+                    <button onclick="sendChatMessage()" class="bg-lumea-yellow-400 text-lumea-blue-900 px-4 py-2 rounded-xl text-xs font-bold hover:bg-lumea-yellow-500">
+                        Kirim
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: PRODUK ==================== -->
+        <section id="tab-produk" class="tab-content hidden space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-lumea-blue-200 pb-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-lumea-blue-900">Katalog Produk LUMÉA</h2>
+                    <p class="text-xs text-lumea-muted">Bahan aktif transparan, pH seimbang, dan teruji dermatologi.</p>
+                </div>
+                <!-- Filter Selectors -->
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <select id="filter-concern" onchange="applyProductFilters()" class="bg-white border border-lumea-blue-200 rounded-xl px-3 py-1.5 font-medium text-lumea-blue-900 focus:outline-none">
+                        <option value="all">Semua Masalah Kulit</option>
+                        <option value="acne">Jerawat & Komedo</option>
+                        <option value="barrier">Skin Barrier</option>
+                        <option value="brightening">Mencerahkan</option>
+                    </select>
+                    <select id="filter-category" onchange="applyProductFilters()" class="bg-white border border-lumea-blue-200 rounded-xl px-3 py-1.5 font-medium text-lumea-blue-900 focus:outline-none">
+                        <option value="all">Semua Kategori</option>
+                        <option value="bundle">Routine Bundles</option>
+                        <option value="cleanser">Cleanser</option>
+                        <option value="serum">Serum</option>
+                        <option value="moisturizer">Moisturizer</option>
+                        <option value="sunscreen">Sunscreen</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Master Grid -->
+            <div id="products-catalog-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: BELAJAR ==================== -->
+        <section id="tab-belajar" class="tab-content hidden space-y-8">
+            <div class="bg-lumea-blue-100 rounded-3xl p-6 border border-lumea-blue-200 text-center max-w-2xl mx-auto space-y-2">
+                <span class="bg-lumea-yellow-400 text-lumea-blue-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Pusat Edukasi Skincare</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-lumea-blue-900">Belajar Rawat Kulit yang Benar</h2>
+                <p class="text-xs sm:text-sm text-lumea-muted">Glosarium, artikel ilmiah sederhana, dan rekaman sesi edukasi dokter.</p>
+            </div>
+
+            <!-- Glosarium Skincare Populer -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-lumea-blue-900">Glosarium Bahan Aktif</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200 space-y-1">
+                        <span class="text-xs font-extrabold text-lumea-blue-900 block">Niacinamide</span>
+                        <p class="text-[11px] text-lumea-muted">Bentuk Vitamin B3 yang mengontrol produksi minyak berlebih, menyamarkan pori, dan mencerahkan kemerahan.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200 space-y-1">
+                        <span class="text-xs font-extrabold text-lumea-blue-900 block">Ceramide (Complex)</span>
+                        <p class="text-[11px] text-lumea-muted">Lem alami penyusun lapisan kulit terluar yang mengunci kelembapan dan mencegah iritasi eksternal.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200 space-y-1">
+                        <span class="text-xs font-extrabold text-lumea-blue-900 block">Salicylic Acid (BHA)</span>
+                        <p class="text-[11px] text-lumea-muted">Asid larut minyak yang menembus ke dalam pori-pori untuk membersihkan komedo dan memicu eksfoliasi halus.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layering Skincare Visual Guide -->
+            <div class="bg-lumea-yellow-100/60 rounded-3xl p-6 border border-lumea-yellow-400 space-y-4">
+                <h3 class="text-lg font-bold text-lumea-blue-900">Panduan Urutan Layering Skincare</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+                    <div class="bg-white p-3 rounded-xl border border-lumea-yellow-400 font-bold text-lumea-blue-900">
+                        1. Cleanser 🧼
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-lumea-yellow-400 font-bold text-lumea-blue-900">
+                        2. Toner / Essence 💦
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-lumea-yellow-400 font-bold text-lumea-blue-900">
+                        3. Serum 🧪
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-lumea-yellow-400 font-bold text-lumea-blue-900">
+                        4. Moisturizer 🧴
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-lumea-yellow-400 font-bold text-lumea-blue-900 col-span-2 sm:col-span-1">
+                        5. Sunscreen (Pagi) ☀️
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles & Videos Grid -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-lumea-blue-900">Artikel & Video Rekaman Dokter</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="learning-cards-grid">
+                    <div class="bg-white rounded-2xl border border-lumea-blue-200 overflow-hidden shadow-sm">
+                        <div class="h-32 bg-lumea-blue-200 flex items-center justify-center text-3xl">🎬</div>
+                        <div class="p-4 space-y-2">
+                            <span class="text-[10px] font-bold text-lumea-yellow-600 bg-lumea-yellow-100 px-2 py-0.5 rounded-full">Skin Confession</span>
+                            <h4 class="text-xs font-bold text-lumea-blue-900">Mitos vs Fakta: Apakah Sunscreen Bikin Jerawatan?</h4>
+                            <p class="text-[11px] text-lumea-muted">Penjelasan langsung dr. Amanda Sp.D.V.E mengenai pemilihan sunscreen physical vs chemical.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-lumea-blue-200 overflow-hidden shadow-sm">
+                        <div class="h-32 bg-lumea-blue-200 flex items-center justify-center text-3xl">📖</div>
+                        <div class="p-4 space-y-2">
+                            <span class="text-[10px] font-bold text-lumea-blue-800 bg-lumea-blue-100 px-2 py-0.5 rounded-full">Basic Skincare</span>
+                            <h4 class="text-xs font-bold text-lumea-blue-900">Cara Memperbaiki Skin Barrier Rusak dalam 14 Hari</h4>
+                            <p class="text-[11px] text-lumea-muted">Panduan pertolongan pertama saat wajah perih akibat produk exfoliating berlebih.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-lumea-blue-200 overflow-hidden shadow-sm">
+                        <div class="h-32 bg-lumea-blue-200 flex items-center justify-center text-3xl">🎥</div>
+                        <div class="p-4 space-y-2">
+                            <span class="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">Webinar Doctor</span>
+                            <h4 class="text-xs font-bold text-lumea-blue-900">Rekaman Q&A Campus Booth: Pertanyaan Tersering</h4>
+                            <p class="text-[11px] text-lumea-muted">Jawaban lengkap pertanyaan mahasiswa seputar breakout saat ujian akhir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 6: KOMUNITAS & EVENT ==================== -->
+        <section id="tab-komunitas" class="tab-content hidden space-y-8">
+            <div class="bg-lumea-blue-100 rounded-3xl p-6 border border-lumea-blue-200 text-center max-w-2xl mx-auto space-y-2">
+                <span class="bg-lumea-yellow-400 text-lumea-blue-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Grow & Own</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-lumea-blue-900">Komunitas & Offline Event LUMÉA</h2>
+                <p class="text-xs sm:text-sm text-lumea-muted">Jadwal Campus Takeover, Run & Sun 5K, Ambassador, serta Wellness Perks.</p>
+            </div>
+
+            <!-- Kalender Event -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-lumea-blue-900">Kalender Event & Live Shopping</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-lumea-blue-200 flex space-x-4 items-center">
+                        <div class="bg-lumea-yellow-300 text-lumea-blue-900 p-3 rounded-2xl text-center font-bold min-w-[65px]">
+                            <span class="text-xs uppercase block">NOV</span>
+                            <span class="text-xl">12</span>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Campus Takeover</span>
+                            <h4 class="text-xs font-bold text-lumea-blue-900">LUMÉA Skin Booth @ Universitas Indonesia</h4>
+                            <p class="text-[11px] text-lumea-muted">Gratis Skin Scan & Konsultasi Singkat Dokter Sp.D.V.E di Lapangan Rotunda.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-lumea-blue-200 flex space-x-4 items-center">
+                        <div class="bg-lumea-blue-200 text-lumea-blue-900 p-3 rounded-2xl text-center font-bold min-w-[65px]">
+                            <span class="text-xs uppercase block">NOV</span>
+                            <span class="text-xl">20</span>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Run & Sun 5K</span>
+                            <h4 class="text-xs font-bold text-lumea-blue-900">LUMÉA Sun Protection Morning Run</h4>
+                            <p class="text-[11px] text-lumea-muted">Lari pagi bersama di GBK + UV Barrier Testing & Refreshment Zone.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ambassador & Wellness Partnerships Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Ambassador Registration -->
+                <div class="bg-white p-6 rounded-3xl border border-lumea-blue-200 space-y-3">
+                    <span class="bg-lumea-yellow-400 text-lumea-blue-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full">Join Team</span>
+                    <h3 class="text-base font-bold text-lumea-blue-900">Pendaftaran LUMÉA Ambassador</h3>
+                    <p class="text-xs text-lumea-muted">Dapatkan pratinjau produk baru gratis, komisi affiliate hingga 15%, dan akses eksklusif ke event dokter.</p>
+                    <button onclick="showToast('Form pendaftaran Ambassador telah dibuka! Tim kami akan menghubungi WA kamu.')" class="w-full py-2.5 bg-lumea-blue-900 text-lumea-yellow-300 font-bold text-xs rounded-xl shadow-sm hover:bg-lumea-blue-800 transition">
+                        Daftar Sebagai Student/Creator Ambassador
+                    </button>
+                </div>
+
+                <!-- Wellness Partnership Perks -->
+                <div class="bg-lumea-blue-50 p-6 rounded-3xl border border-lumea-blue-200 space-y-3">
+                    <span class="bg-lumea-blue-200 text-lumea-blue-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full">Perks Komunitas</span>
+                    <h3 class="text-base font-bold text-lumea-blue-900">Wellness Partnership Perks</h3>
+                    <p class="text-xs text-lumea-muted">Tukarkan poin LUMÉA kamu dengan voucher kelas kebugaran rekanan kami:</p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-bold text-lumea-blue-900">
+                        <span class="bg-white px-3 py-1 rounded-lg border">🏋️‍♂️ FTL Gym Pass</span>
+                        <span class="bg-white px-3 py-1 rounded-lg border">💪 Fithub Day Voucher</span>
+                        <span class="bg-white px-3 py-1 rounded-lg border">🧘‍♀️ The Mat Pilates</span>
+                        <span class="bg-white px-3 py-1 rounded-lg border">🩺 Cardea Health</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 7: AKUN SAYA (LOYALTY) ==================== -->
+        <section id="tab-akun" class="tab-content hidden space-y-8">
+            <!-- User Profile Top Card -->
+            <div class="bg-white rounded-3xl p-6 border border-lumea-blue-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 rounded-full bg-lumea-yellow-300 flex items-center justify-center font-bold text-xl text-lumea-blue-900 border-2 border-lumea-yellow-400">
+                        👤
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-extrabold text-lumea-blue-900" id="user-profile-name">Pengunjung LUMÉA</h3>
+                        <p class="text-xs text-lumea-muted" id="user-profile-phone">+62 812-****-8901 • Status: Gold Member</p>
+                        <div class="mt-1 flex gap-2">
+                            <span class="bg-lumea-yellow-100 text-lumea-yellow-600 text-[10px] font-bold px-2 py-0.5 rounded-full">340 Poin Active</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="toggleAuthModal()" class="px-4 py-2 bg-lumea-blue-100 hover:bg-lumea-blue-200 text-lumea-blue-900 font-bold text-xs rounded-xl transition">
+                    Ganti Akun / Logout
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Birthday Treat & Vouchers -->
+                <div class="bg-gradient-to-br from-lumea-yellow-100 to-white p-6 rounded-3xl border border-lumea-yellow-400 space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl">🎂</span>
+                        <h4 class="font-bold text-sm text-lumea-blue-900">Birthday Treat Special</h4>
+                    </div>
+                    <p class="text-xs text-lumea-muted">Klaim hadiah gratis produk ukuran travel size saat bulan ulang tahunmu!</p>
+                    <button onclick="claimBirthdayTreat()" class="w-full py-2.5 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-xs rounded-xl transition">
+                        Klaim Product Gift Ulang Tahun
+                    </button>
+                </div>
+
+                <!-- Repurchase Reminder Setting -->
+                <div class="bg-white p-6 rounded-3xl border border-lumea-blue-200 space-y-3">
+                    <h4 class="font-bold text-sm text-lumea-blue-900 flex items-center gap-2">
+                        <i class="fa-solid fa-bell text-lumea-yellow-600"></i> Repurchase Reminder (60 Hari)
+                    </h4>
+                    <p class="text-xs text-lumea-muted">Atur pengingat pengisian ulang serum & cleanser agar perawatanmu tidak terputus.</p>
+                    <div class="flex gap-2">
+                        <select id="reminder-freq" class="bg-lumea-blue-50 border border-lumea-blue-200 text-xs rounded-xl p-2 font-medium flex-1">
+                            <option>Setiap 60 Hari (Rekomendasi Serum)</option>
+                            <option>Setiap 30 Hari (Penggunaan Rutin Cleanser)</option>
+                            <option>Setiap 90 Hari (Sunscreen Jumbo)</option>
+                        </select>
+                        <button onclick="saveReminderSettings()" class="bg-lumea-blue-900 text-lumea-yellow-300 text-xs font-bold px-4 rounded-xl">
+                            Simpan
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Routine & Scan History -->
+            <div class="bg-white p-6 rounded-3xl border border-lumea-blue-200 space-y-4">
+                <h4 class="font-bold text-sm text-lumea-blue-900">Riwayat Skin Scan & Rutinitas Tersimpan</h4>
+                <div class="space-y-3" id="saved-routines-list">
+                    <div class="p-4 bg-lumea-blue-50 rounded-2xl flex justify-between items-center text-xs border border-lumea-blue-100">
+                        <div>
+                            <span class="font-bold text-lumea-blue-900 block">Scan Terbaru - Kombinasi / Acne Focus</span>
+                            <span class="text-[10px] text-lumea-muted">Disimpan pada 1 November 2026</span>
+                        </div>
+                        <button onclick="switchTab('skin-scan')" class="text-xs text-lumea-blue-900 font-bold underline">Lihat Detail</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback & Review Form -->
+            <div class="bg-white p-6 rounded-3xl border border-lumea-blue-200 space-y-3">
+                <h4 class="font-bold text-sm text-lumea-blue-900">Form Ulasan Pasca-Pemakaian (Post-Use Feedback)</h4>
+                <p class="text-xs text-lumea-muted">Bagikan pengalaman perkembangan kulitmu setelah 14 hari pemakaian produk LUMÉA.</p>
+                <textarea id="feedback-text" rows="3" placeholder="Tulis perkembangan kulitmu di sini..." class="w-full text-xs p-3 border border-lumea-blue-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-lumea-yellow-400"></textarea>
+                <button onclick="submitFeedback()" class="px-5 py-2 bg-lumea-yellow-400 text-lumea-blue-900 font-bold text-xs rounded-xl hover:bg-lumea-yellow-500 transition">
+                    Kirim Ulasan & Dapatkan 50 Poin
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 8: INTERNAL CRM ADMIN DASHBOARD ==================== -->
+        <section id="tab-admin" class="tab-content hidden space-y-6">
+            <div class="bg-lumea-blue-900 text-white rounded-3xl p-6 space-y-2 flex justify-between items-center">
+                <div>
+                    <span class="bg-lumea-yellow-400 text-lumea-blue-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">Internal Mode</span>
+                    <h2 class="text-2xl font-black text-lumea-yellow-300">Dashboard Analytics & CRM LUMÉA</h2>
+                    <p class="text-xs text-gray-300">Pantau performa trafik QR, angka konversi checkout, status konsultasi dokter, dan data repurchase.</p>
+                </div>
+                <button onclick="toggleAdminDashboard()" class="text-xs bg-white/10 text-white px-3 py-1.5 rounded-xl hover:bg-white/20">
+                    Kembali ke User View
+                </button>
+            </div>
+
+            <!-- KPI Metric Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200">
+                    <span class="text-[10px] font-bold text-lumea-muted uppercase">Total Visitors (QR)</span>
+                    <h3 class="text-xl font-black text-lumea-blue-900">14,280</h3>
+                    <span class="text-[10px] text-green-600 font-bold">↑ 24% dari Booth Campus</span>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200">
+                    <span class="text-[10px] font-bold text-lumea-muted uppercase">Skin Scan Completed</span>
+                    <h3 class="text-xl font-black text-lumea-blue-900">9,850</h3>
+                    <span class="text-[10px] text-lumea-blue-800 font-bold">68.9% Conversion Rate</span>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200">
+                    <span class="text-[10px] font-bold text-lumea-muted uppercase">Checkout Shopee/TikTok</span>
+                    <h3 class="text-xl font-black text-lumea-blue-900">3,420</h3>
+                    <span class="text-[10px] text-orange-600 font-bold">Deep-link Tracked</span>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-lumea-blue-200">
+                    <span class="text-[10px] font-bold text-lumea-muted uppercase">60-Day Repurchase CRM</span>
+                    <h3 class="text-xl font-black text-lumea-blue-900">41.2%</h3>
+                    <span class="text-[10px] text-purple-600 font-bold">Automated WA Reminders</span>
+                </div>
+            </div>
+
+            <!-- Traffic Sources Breakdown Table -->
+            <div class="bg-white rounded-3xl border border-lumea-blue-200 p-6 space-y-4">
+                <h3 class="text-base font-bold text-lumea-blue-900">Laporan Performa Parameter QR Code Target</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-lumea-blue-50 text-lumea-blue-900 font-bold border-b border-lumea-blue-200">
+                            <tr>
+                                <th class="p-3">Sumber QR (?src=)</th>
+                                <th class="p-3">Lokasi / Poster</th>
+                                <th class="p-3">Jumlah Impresi</th>
+                                <th class="p-3">Scan Selesai</th>
+                                <th class="p-3">Konversi Pembelian</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-lumea-blue-100 font-medium text-lumea-text">
+                            <tr>
+                                <td class="p-3 font-bold text-lumea-blue-900">?src=campus</td>
+                                <td class="p-3">UI Campus Takeover Booth</td>
+                                <td class="p-3">6,200</td>
+                                <td class="p-3">4,800</td>
+                                <td class="p-3 font-bold text-green-600">1,940 (40.4%)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-lumea-blue-900">?src=run</td>
+                                <td class="p-3">Run & Sun GBK Event</td>
+                                <td class="p-3">4,100</td>
+                                <td class="p-3">2,950</td>
+                                <td class="p-3 font-bold text-green-600">920 (31.1%)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-lumea-blue-900">?src=poster</td>
+                                <td class="p-3">Poster Watsons & Guardian</td>
+                                <td class="p-3">3,980</td>
+                                <td class="p-3">2,100</td>
+                                <td class="p-3 font-bold text-green-600">560 (26.6%)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-lumea-blue-900 text-white pt-10 pb-8 mt-12 border-t-4 border-lumea-yellow-400">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
+            <!-- Col 1 -->
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-lumea-yellow-400 flex items-center justify-center text-lumea-blue-900 font-black text-lg">💧</div>
+                    <span class="text-xl font-bold tracking-tight text-lumea-yellow-300">LUMÉA</span>
+                </div>
+                <p class="text-gray-300 leading-relaxed">
+                    Personalized Smart Skincare. Menghubungkan asesmen kecerdasan buatan, pendampingan dokter Sp.D.V.E, dan produk berkualitas tinggi.
+                </p>
+                <div class="text-[11px] text-gray-400">
+                    © 2026 LUMÉA Indonesia. All rights reserved.
+                </div>
+            </div>
+
+            <!-- Col 2: Navigation Links -->
+            <div class="space-y-2">
+                <h4 class="font-bold text-lumea-yellow-300 uppercase tracking-wider text-[11px]">Navigasi Utama</h4>
+                <ul class="space-y-1.5 text-gray-300">
+                    <li><a href="#" onclick="switchTab('beranda')" class="hover:text-lumea-yellow-300">Beranda</a></li>
+                    <li><a href="#" onclick="switchTab('skin-scan')" class="hover:text-lumea-yellow-300">Skin Scan Engine</a></li>
+                    <li><a href="#" onclick="switchTab('konsultasi')" class="hover:text-lumea-yellow-300">Konsultasi Dokter Sp.D.V.E</a></li>
+                    <li><a href="#" onclick="switchTab('produk')" class="hover:text-lumea-yellow-300">Katalog Produk & Routine Bundles</a></li>
+                    <li><a href="#" onclick="switchTab('belajar')" class="hover:text-lumea-yellow-300">Pusat Edukasi & Glosarium</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Integrasi Kanal Marketplace -->
+            <div class="space-y-2">
+                <h4 class="font-bold text-lumea-yellow-300 uppercase tracking-wider text-[11px]">Kanal Resmi LUMÉA</h4>
+                <div class="flex flex-col space-y-2">
+                    <button onclick="openMultiChannelModal('Shopee Official Store', 'https://shopee.co.id/lumea')" class="w-fit text-left text-gray-300 hover:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-orange-400"></i> Shopee Official Store
+                    </button>
+                    <button onclick="openMultiChannelModal('TikTok Shop', 'https://tiktok.com/@lumeaskincare')" class="w-fit text-left text-gray-300 hover:text-white flex items-center gap-2">
+                        <i class="fa-brands fa-tiktok text-pink-400"></i> TikTok Shop & Live
+                    </button>
+                    <button onclick="shareToWhatsApp()" class="w-fit text-left text-gray-300 hover:text-white flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-green-400"></i> WhatsApp CS & Skin Advisor
+                    </button>
+                    <a href="https://instagram.com" target="_blank" class="text-gray-300 hover:text-white flex items-center gap-2">
+                        <i class="fa-brands fa-instagram text-purple-400"></i> Instagram @lumeaskincare
+                    </a>
+                </div>
+            </div>
+
+            <!-- Col 4: Halaman Legal & Privasi -->
+            <div class="space-y-2">
+                <h4 class="font-bold text-lumea-yellow-300 uppercase tracking-wider text-[11px]">Legal & Syarat Ketentuan</h4>
+                <ul class="space-y-1.5 text-gray-300">
+                    <li><a href="#" onclick="openLegalModal('Kebijakan Privasi Data Sensitif Skin Scan')" class="hover:underline">Kebijakan Privasi Data Kulit</a></li>
+                    <li><a href="#" onclick="openLegalModal('Syarat & Ketentuan Konsultasi Medis')" class="hover:underline">Syarat Konsultasi Dokter</a></li>
+                    <li><a href="#" onclick="openLegalModal('Syarat Klaim Promo HUT & Birthday Treat')" class="hover:underline">Syarat Promo & Loyalty Poin</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- DYNAMIC MULTI-CHANNEL CHECKOUT MODAL -->
+    <div id="multichannel-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4 border border-lumea-blue-200">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-base text-lumea-blue-900" id="mc-modal-title">Pilih Kanal Pembelian LUMÉA</h3>
+                <button onclick="closeMultiChannelModal()" class="text-gray-400 hover:text-black font-bold text-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs text-lumea-muted">Kamu akan diarahkan ke toko resmi LUMÉA dengan voucher promo otomatis terpasang:</p>
+
+            <div class="space-y-3 pt-1">
+                <!-- Shopee Option -->
+                <a id="mc-shopee-link" href="https://shopee.co.id" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-orange-200 bg-orange-50 hover:bg-orange-100 transition">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-bag-shopping text-orange-500 text-xl"></i>
+                        <div>
+                            <span class="font-bold text-xs text-lumea-blue-900 block">Shopee Official Store</span>
+                            <span class="text-[10px] text-lumea-muted">Bebas Ongkir & Cashback Coins</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-orange-500 text-xs"></i>
+                </a>
+
+                <!-- TikTok Shop Option -->
+                <a id="mc-tiktok-link" href="https://tiktok.com" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-300 bg-gray-50 hover:bg-gray-100 transition">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-brands fa-tiktok text-black text-xl"></i>
+                        <div>
+                            <span class="font-bold text-xs text-lumea-blue-900 block">TikTok Shop & Live</span>
+                            <span class="text-[10px] text-lumea-muted">Diskon Bundling Live Commerce</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-black text-xs"></i>
+                </a>
+
+                <!-- WhatsApp CS Direct Option -->
+                <button onclick="shareToWhatsApp()" class="w-full flex items-center justify-between p-3.5 rounded-2xl border border-green-200 bg-green-50 hover:bg-green-100 transition text-left">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-brands fa-whatsapp text-green-600 text-xl"></i>
+                        <div>
+                            <span class="font-bold text-xs text-lumea-blue-900 block">WhatsApp Skin Advisor</span>
+                            <span class="text-[10px] text-lumea-muted">Pesan manual via CS Personal</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-green-600 text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL (OTP / GOOGLE LOGIN SIMULATION) -->
+    <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl space-y-4 border border-lumea-blue-200 text-center">
+            <div class="w-12 h-12 rounded-full bg-lumea-yellow-300 flex items-center justify-center mx-auto text-xl font-bold">💧</div>
+            <h3 class="font-bold text-lg text-lumea-blue-900">Masuk ke Akun LUMÉA</h3>
+            <p class="text-xs text-lumea-muted">Simpan riwayat Skin Scan, klaim voucher ulang tahun, dan kumpulkan poin loyalitas.</p>
+
+            <div class="space-y-3 pt-2">
+                <button onclick="simulateLogin('Google User')" class="w-full py-3 bg-white border border-gray-300 hover:bg-gray-50 text-lumea-blue-900 font-bold text-xs rounded-xl shadow-sm flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-google text-red-500"></i>
+                    <span>Lanjutkan dengan Google</span>
+                </button>
+                <div class="text-[10px] text-gray-400 font-bold uppercase">atau cepat via WhatsApp</div>
+                <div class="flex gap-2">
+                    <input type="tel" id="otp-phone-input" placeholder="Nomor WhatsApp (08...)" class="flex-1 text-xs border border-lumea-blue-200 rounded-xl px-3 py-2.5 focus:outline-none">
+                    <button onclick="simulateLogin('WhatsApp User')" class="bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 px-4 py-2.5 rounded-xl font-bold text-xs">
+                        Kirim OTP
+                    </button>
+                </div>
+            </div>
+            <button onclick="toggleAuthModal()" class="text-xs text-lumea-muted hover:underline block mx-auto pt-2">Nanti Saja</button>
+        </div>
+    </div>
+
+    <!-- LEGAL DISCLOSURE MODAL -->
+    <div id="legal-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl space-y-4 border border-lumea-blue-200">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-sm text-lumea-blue-900" id="legal-modal-title">Dokumen Legal LUMÉA</h3>
+                <button onclick="closeLegalModal()" class="text-gray-400 hover:text-black font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="text-xs text-lumea-text space-y-2 max-h-60 overflow-y-auto leading-relaxed custom-scrollbar p-2 bg-lumea-blue-50 rounded-xl">
+                <p>Seluruh data tipe kulit, keluhan jerawat, dan riwayat kesehatan yang diisi pada platform LUMÉA diklasifikasikan sebagai <strong>Data Sensitif Kesehatan</strong>.</p>
+                <p>LUMÉA menjamin enkripsi data end-to-end dan tidak akan pernah menjual data medis pengguna kepada pihak ketiga tanpa persetujuan verbal/tertulis saat konsultasi dokter.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-lumea-blue-900 text-lumea-yellow-300 px-5 py-3 rounded-2xl shadow-xl border border-lumea-yellow-400 text-xs font-bold flex items-center space-x-2 pointer-events-none">
+        <span id="toast-icon">✨</span>
+        <span id="toast-message">Notifikasi berhasil!</span>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // MASTER PRODUCTS DATA CATALOG
+        const productsData = [
+            {
+                id: 'prod-1',
+                name: 'LUMÉA Barrier Saver Routine Bundle',
+                category: 'bundle',
+                concern: 'barrier',
+                skinType: 'Sensitif / Dry',
+                price: 'Rp 219.000',
+                oldPrice: 'Rp 279.000',
+                badge: 'HUT Promo - Paket Hemat',
+                icon: '📦',
+                desc: 'Cleanser 100ml + Hydrating Essence 100ml + Barrier Gel Moisturizer 50g'
+            },
+            {
+                id: 'prod-2',
+                name: 'LUMÉA Calm Gentle Cleanser',
+                category: 'cleanser',
+                concern: 'acne',
+                skinType: 'Semua Tipe Kulit',
+                price: 'Rp 59.000',
+                badge: 'pH 5.5 Balanced',
+                icon: '🧼',
+                desc: 'Pembersih wajah rendah busa dengan Oat Extract & Ceramide.'
+            },
+            {
+                id: 'prod-3',
+                name: 'LUMÉA Targeted Acne & Barrier Serum',
+                category: 'serum',
+                concern: 'acne',
+                skinType: 'Oily & Sensitive',
+                price: 'Rp 89.000',
+                badge: 'Top Seller Scan',
+                icon: '🧪',
+                desc: 'Serum konsentrat 4% Niacinamide + Zinc PCA + Madecassoside.'
+            },
+            {
+                id: 'prod-4',
+                name: 'LUMÉA Invisible Shield Sunscreen SPF 50+',
+                category: 'sunscreen',
+                concern: 'brightening',
+                skinType: 'Semua Tipe Kulit',
+                price: 'Rp 75.000',
+                badge: 'No Whitecast',
+                icon: '☀️',
+                desc: 'Sunscreen gel ultra-ringan tidak menyumbat pori-pori.'
+            },
+            {
+                id: 'prod-5',
+                name: 'LUMÉA Ceramide Moisture Lock Gel',
+                category: 'moisturizer',
+                concern: 'barrier',
+                skinType: 'Kombinasi',
+                price: 'Rp 79.000',
+                badge: 'Cooling Effect',
+                icon: '🧴',
+                desc: 'Pelembab tekstur gel water-burst terkunci kelembapan 24 jam.'
+            }
+        ];
+
+        // INITIALIZATION ON LOAD
+        window.onload = function() {
+            detectQROrigin();
+            renderProducts(productsData);
+            renderFeaturedProducts();
+        };
+
+        // URL QR ORIGIN DETECTOR (?src=campus / ?src=run / ?src=booth)
+        function detectQROrigin() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const src = urlParams.get('src');
+            const qrBanner = document.getElementById('qr-origin-banner');
+            const qrTag = document.getElementById('qr-tag');
+            const qrText = document.getElementById('qr-text');
+
+            if (src === 'campus') {
+                qrTag.innerText = 'Campus Takeover';
+                qrText.innerText = '✨ Khusus Mahasiswa! Gunakan voucher scan di bawah untuk diskon ekstra 20%.';
+            } else if (src === 'run') {
+                qrTag.innerText = 'Run & Sun 5K';
+                qrText.innerText = '🏃‍♂️ Salam runner! Dapatkan gratis sampel Sunscreen di hasil Scan kamu.';
+            } else if (src === 'poster') {
+                qrTag.innerText = 'Poster Scan';
+                qrText.innerText = '🎁 Scan dari Booth Store. Konsultasi dokter otomatis aktif gratis pra-form.';
+            }
+        }
+
+        function dismissQRBanner() {
+            document.getElementById('qr-origin-banner').classList.add('hidden');
+        }
+
+        // TAB NAVIGATION SYSTEM
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // Remove active style from all tab buttons
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+
+            // Show target tab
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Highlight target button
+            const targetBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // GLOBAL SEARCH FILTER FUNCTION
+        function handleGlobalSearch(query) {
+            const overlay = document.getElementById('search-overlay');
+            const resultsContainer = document.getElementById('search-results-list');
+
+            if (!query.trim()) {
+                overlay.classList.add('hidden');
+                return;
+            }
+
+            overlay.classList.remove('hidden');
+            const q = query.toLowerCase();
+
+            // Filter products matching search
+            const matchedProducts = productsData.filter(p => 
+                p.name.toLowerCase().includes(q) || 
+                p.concern.toLowerCase().includes(q) || 
+                p.desc.toLowerCase().includes(q)
+            );
+
+            let html = '';
+            if (matchedProducts.length > 0) {
+                matchedProducts.forEach(p => {
+                    html += `
+                        <div class="flex justify-between items-center p-2.5 bg-lumea-blue-50 rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-2xl">${p.icon}</span>
+                                <div>
+                                    <h5 class="text-xs font-bold text-lumea-blue-900">${p.name}</h5>
+                                    <span class="text-[10px] text-lumea-muted">${p.price} • ${p.skinType}</span>
+                                </div>
+                            </div>
+                            <button onclick="openMultiChannelModal('${p.name}', 'https://shopee.co.id')" class="px-3 py-1 bg-lumea-yellow-400 text-lumea-blue-900 text-xs font-bold rounded-lg">
+                                Beli
+                            </button>
+                        </div>
+                    `;
+                });
+            } else {
+                html = `<p class="text-xs text-gray-400 py-2 text-center">Tidak ada hasil cocok untuk "${query}". Coba kata kunci seperti: retinol, ceramide, sunscreen.</p>`;
+            }
+
+            resultsContainer.innerHTML = html;
+        }
+
+        function closeSearchOverlay() {
+            document.getElementById('search-overlay').classList.add('hidden');
+        }
+
+        // RENDER PRODUCTS CATALOG GRID
+        function renderProducts(items) {
+            const container = document.getElementById('products-catalog-grid');
+            if (!container) return;
+
+            let html = '';
+            items.forEach(p => {
+                html += `
+                    <div class="bg-white rounded-2xl border border-lumea-blue-200 p-4 space-y-3 flex flex-col justify-between shadow-sm hover:border-lumea-yellow-400 transition">
+                        <div class="space-y-2">
+                            <div class="w-full h-32 bg-lumea-blue-50 rounded-xl flex items-center justify-center text-4xl relative">
+                                ${p.icon}
+                                <span class="absolute top-2 left-2 bg-lumea-yellow-300 text-lumea-blue-900 text-[9px] font-bold px-2 py-0.5 rounded-full">
+                                    ${p.badge}
+                                </span>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase text-lumea-muted block">Cocok untuk Hasil Scan</span>
+                            <h4 class="text-xs font-bold text-lumea-blue-900 leading-snug">${p.name}</h4>
+                            <p class="text-[11px] text-lumea-muted line-clamp-2">${p.desc}</p>
+                        </div>
+                        <div class="pt-2 border-t border-lumea-blue-100 flex flex-col space-y-2">
+                            <div class="flex items-baseline space-x-1">
+                                <span class="text-xs font-black text-lumea-blue-900">${p.price}</span>
+                                ${p.oldPrice ? `<span class="text-[10px] text-gray-400 line-through">${p.oldPrice}</span>` : ''}
+                            </div>
+                            <button onclick="openMultiChannelModal('${p.name}')" class="w-full py-2 bg-lumea-yellow-400 hover:bg-lumea-yellow-500 text-lumea-blue-900 font-bold text-xs rounded-xl shadow-sm transition">
+                                Beli di Shopee/TikTok
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderFeaturedProducts() {
+            const container = document.getElementById('featured-products-grid');
+            if (container) {
+                renderProducts(productsData.slice(0, 4));
+            }
+        }
+
+        function applyProductFilters() {
+            const concern = document.getElementById('filter-concern').value;
+            const category = document.getElementById('filter-category').value;
+
+            let filtered = productsData.filter(p => {
+                const matchConcern = (concern === 'all') || (p.concern === concern);
+                const matchCategory = (category === 'all') || (p.category === category);
+                return matchConcern && matchCategory;
+            });
+
+            renderProducts(filtered);
+        }
+
+        // SKIN SCAN QUIZ STEPPER ENGINE
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function navigateQuiz(direction) {
+            const currentStepEl = document.getElementById(`step-${currentStep}`);
+            currentStepEl.classList.add('hidden');
+
+            currentStep += direction;
+
+            if (currentStep < 1) currentStep = 1;
+            if (currentStep > totalSteps) {
+                calculateAndShowQuizResults();
+                return;
+            }
+
+            const nextStepEl = document.getElementById(`step-${currentStep}`);
+            nextStepEl.classList.remove('hidden');
+
+            // Update UI stepper indicators
+            document.getElementById('quiz-step-title').innerText = `Langkah ${currentStep} dari ${totalSteps}`;
+            document.getElementById('quiz-progress-percent').innerText = `${(currentStep / totalSteps) * 100}%`;
+            document.getElementById('quiz-progress-bar').style.width = `${(currentStep / totalSteps) * 100}%`;
+
+            // Toggle prev button status
+            const prevBtn = document.getElementById('quiz-prev-btn');
+            if (currentStep === 1) {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            // Update next button text on final step
+            const nextBtnSpan = document.querySelector('#quiz-next-btn span');
+            if (currentStep === totalSteps) {
+                nextBtnSpan.innerText = 'Lihat Hasil Skin Scan';
+            } else {
+                nextBtnSpan.innerText = 'Selanjutnya';
+            }
+        }
+
+        function calculateAndShowQuizResults() {
+            const form = document.getElementById('skin-scan-form');
+            const formData = new FormData(form);
+
+            const skinType = formData.get('skin_type') || 'Kombinasi';
+            const concern = formData.get('skin_concern') || 'Jerawat & Barrier Loss';
+
+            // Hide form stepper and reveal results container
+            document.getElementById('skin-scan-form').parentElement.classList.add('hidden');
+            const resContainer = document.getElementById('quiz-result-container');
+            resContainer.classList.remove('hidden');
+
+            // Populate Dynamic Results
+            document.getElementById('res-skin-profile-title').innerText = `Profil: ${skinType} - Fokus ${concern}`;
+            document.getElementById('res-scan-id').innerText = `#LUM-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            showToast('Skin Scan Selesai! Rutinitas idealmu telah dibuat.');
+        }
+
+        function saveRoutineToAccount() {
+            showToast('Rutinitas Skin Scan telah disimpan ke profil Akun Saya!');
+        }
+
+        function shareToWhatsApp() {
+            const text = encodeURIComponent('Halo CS LUMÉA! Saya ingin berkonsultasi mengenai hasil Skin Scan saya dan memesan paket rekomendasi.');
+            window.open(`https://wa.me/6281234567890?text=${text}`, '_blank');
+        }
+
+        function proceedToDoctorConsultation() {
+            switchTab('konsultasi');
+            document.getElementById('consult-skin-summary').innerText = document.getElementById('res-skin-profile-title').innerText;
+            showToast('Data Scan berhasil diteruskan ke pra-form Dokter.');
+        }
+
+        // DOCTOR CONSULTATION FLOW
+        let selectedDoctor = '';
+        function startBookingDoctor(docName, price) {
+            selectedDoctor = docName;
+            document.getElementById('consult-doc-name').innerText = docName;
+            document.getElementById('doctor-consult-modal').classList.remove('hidden');
+            window.scrollTo({ top: document.getElementById('doctor-consult-modal').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function closeDoctorModal() {
+            document.getElementById('doctor-consult-modal').classList.add('hidden');
+        }
+
+        function launchDoctorLiveChat() {
+            const consent = document.getElementById('privacy-consent').checked;
+            if (!consent) {
+                alert('Mohon setujui Kebijakan Privasi Data Kesehatan terlebih dahulu.');
+                return;
+            }
+
+            closeDoctorModal();
+            const chatRoom = document.getElementById('simulated-chat-room');
+            chatRoom.classList.remove('hidden');
+            document.getElementById('chat-doctor-heading').innerText = `Chat Aktif: ${selectedDoctor || 'dr. Amanda Putri, Sp.D.V.E'}`;
+            showToast('Pembayaran Rp 35.000 Sukses. Ruang Chat Dokter Aktif!');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input-field');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chatContainer = document.getElementById('chat-messages-container');
+            
+            // Append User Message
+            const userBubble = document.createElement('div');
+            userBubble.className = 'bg-lumea-yellow-300 p-3 rounded-2xl max-w-xs ml-auto text-lumea-blue-900 font-medium text-right';
+            userBubble.innerText = msg;
+            chatContainer.appendChild(userBubble);
+
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Simulated Doctor Reply after 1 border sec
+            setTimeout(() => {
+                const docBubble = document.createElement('div');
+                docBubble.className = 'bg-lumea-blue-100 p-3 rounded-2xl max-w-xs text-lumea-blue-900 font-medium';
+                docBubble.innerText = 'Terima kasih informasinya. Saya sarankan kamu memakai LUMÉA Targeted Serum 1x sehari di malam hari dulu untuk membiasakan skin barrier.';
+                chatContainer.appendChild(docBubble);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1200);
+        }
+
+        function endDoctorChatSession() {
+            document.getElementById('simulated-chat-room').classList.add('hidden');
+            showToast('Sesi konsultasi selesai. Ringkasan resep disimpan ke Akun Saya.');
+        }
+
+        // MULTI-CHANNEL CHECKOUT MODAL SYSTEM
+        function openMultiChannelModal(productTitle, defaultUrl = '') {
+            document.getElementById('mc-modal-title').innerText = `Kanal Pembelian: ${productTitle}`;
+            document.getElementById('multichannel-modal').classList.remove('hidden');
+        }
+
+        function closeMultiChannelModal() {
+            document.getElementById('multichannel-modal').classList.add('hidden');
+        }
+
+        // AUTH & LOYALTY ACTIONS
+        function toggleAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function simulateLogin(provider) {
+            toggleAuthModal();
+            document.getElementById('user-login-status').innerText = 'Akun Terverifikasi';
+            document.getElementById('user-profile-name').innerText = provider === 'Google User' ? 'Siti Mahasiswa' : 'User WA Verified';
+            showToast(`Berhasil login via ${provider}! Poin loyalitas diaktifkan.`);
+        }
+
+        function claimBirthdayTreat() {
+            showToast('🎁 Selamat Ulang Tahun! Travel Size Cleanser ditambahkan ke pesanan berikutnya.');
+        }
+
+        function saveReminderSettings() {
+            const freq = document.getElementById('reminder-freq').value;
+            showToast(`Pengingat WhatsApp Repurchase diatur: ${freq}`);
+        }
+
+        function submitFeedback() {
+            const text = document.getElementById('feedback-text').value;
+            if (!text.trim()) return;
+            document.getElementById('feedback-text').value = '';
+            showToast('Terima kasih atas ulasanmu! +50 Poin LUMÉA telah ditambahkan.');
+        }
+
+        // CRM ADMIN TOGGLE
+        function toggleAdminDashboard() {
+            const adminTab = document.getElementById('tab-admin');
+            if (adminTab.classList.contains('hidden')) {
+                const tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(t => t.classList.add('hidden'));
+                adminTab.classList.remove('hidden');
+                showToast('Beralih ke Dashboard CRM Internal Admin LUMÉA');
+            } else {
+                switchTab('beranda');
+            }
+        }
+
+        function openLegalModal(title) {
+            document.getElementById('legal-modal-title').innerText = title;
+            document.getElementById('legal-modal').classList.remove('hidden');
+        }
+
+        function closeLegalModal() {
+            document.getElementById('legal-modal').classList.add('hidden');
+        }
+
+        // TOAST SYSTEM
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
